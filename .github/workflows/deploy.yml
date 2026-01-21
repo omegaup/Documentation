@@ -115,7 +115,8 @@ jobs:
           echo "Building site with Zensical..."
           zensical build --clean
           
-          # Fix asset paths for GitHub Pages subdirectory by adding <base> tag
+          # Fix asset paths for GitHub Pages subdirectory
+          # Convert relative asset paths to absolute paths with repo subdirectory
           echo "Fixing asset paths for GitHub Pages subdirectory..."
           python3 << 'FIXPATHS'
           import os
@@ -126,9 +127,9 @@ jobs:
           
           # Determine base path
           if repo_name.lower() == owner.lower():
-              base_path = "/"
+              base_path = ""
           else:
-              base_path = f"/{repo_name}/"
+              base_path = f"/{repo_name}"
           
           # Find all HTML files
           html_files = []
@@ -138,31 +139,95 @@ jobs:
                       html_files.append(os.path.join(root, file))
           
           print(f"Found {len(html_files)} HTML files to process")
-          print(f"Base path: {base_path}")
+          print(f"Base path: {base_path or '/'}")
           
-          # Process each HTML file
+          # Patterns to match relative asset paths
+          # Match href="assets/..." or src="assets/..." but NOT absolute paths (http://, https://, //, or starting with /)
+          def fix_asset_paths(content, base_path):
+              # Fix CSS links: href="assets/..." or href='assets/...'
+              # But skip if already absolute (starts with http://, https://, //, or /)
+              content = re.sub(
+                  r'href=(["\'])(?!/|https?://|//)(assets/[^"\']+)',
+                  lambda m: f'href={m.group(1)}{base_path}/{m.group(2)}{m.group(1)}' if base_path else f'href={m.group(1)}{m.group(2)}{m.group(1)}',
+                  content
+              )
+              
+              # Fix JS scripts: src="assets/..." or src='assets/...'
+              content = re.sub(
+                  r'src=(["\'])(?!/|https?://|//)(assets/[^"\']+)',
+                  lambda m: f'src={m.group(1)}{base_path}/{m.group(2)}{m.group(1)}' if base_path else f'src={m.group(1)}{m.group(2)}{m.group(1)}',
+                  content
+              )
+              
+              # Fix images: <img ... src="assets/...">
+              content = re.sub(
+                  r'(<img[^>]+src=)(["\'])(?!/|https?://|//)(assets/[^"\']+)',
+                  lambda m: f'{m.group(1)}{m.group(2)}{base_path}/{m.group(3)}{m.group(2)}' if base_path else f'{m.group(1)}{m.group(2)}{m.group(3)}{m.group(2)}',
+                  content
+              )
+              
+              # Fix favicon and other link tags: <link ... href="assets/...">
+              content = re.sub(
+                  r'(<link[^>]+href=)(["\'])(?!/|https?://|//)(assets/[^"\']+)',
+                  lambda m: f'{m.group(1)}{m.group(2)}{base_path}/{m.group(3)}{m.group(2)}' if base_path else f'{m.group(1)}{m.group(2)}{m.group(3)}{m.group(2)}',
+                  content
+              )
+              
+              return content
+          
+          files_modified = 0
           for html_file in html_files:
               with open(html_file, 'r', encoding='utf-8') as f:
                   content = f.read()
               
-              # Check if base tag already exists
-              if re.search(r'<base\s+[^>]*>', content, re.IGNORECASE):
-                  continue  # Skip if base tag already exists
+              original_content = content
               
-              # Insert base tag right after <head>
-              base_tag = f'<base href="{base_path}">'
-              content = re.sub(
-                  r'(<head[^>]*>)',
-                  r'\1\n    ' + base_tag,
-                  content,
-                  count=1,
-                  flags=re.IGNORECASE
-              )
+              # Fix asset paths
+              content = fix_asset_paths(content, base_path)
               
-              with open(html_file, 'w', encoding='utf-8') as f:
-                  f.write(content)
+              # Only write if content changed
+              if content != original_content:
+                  with open(html_file, 'w', encoding='utf-8') as f:
+                      f.write(content)
+                  files_modified += 1
           
-          print(f"✓ Added <base> tag to all HTML files")
+          print(f"✓ Fixed asset paths in {files_modified} HTML files")
+          
+          # Show sample of fixed paths for verification
+          if files_modified > 0 and html_files:
+              sample_file = html_files[0]
+              with open(sample_file, 'r', encoding='utf-8') as f:
+                  sample_content = f.read()
+                  css_matches = re.findall(r'href=(["\'])([^"\']*\.css[^"\']*)', sample_content)
+                  js_matches = re.findall(r'src=(["\'])([^"\']*\.js[^"\']*)', sample_content)
+                  if css_matches:
+                      print(f"Sample CSS path: {css_matches[0][1]}")
+                  if js_matches:
+                      print(f"Sample JS path: {js_matches[0][1]}")
+          
+          # Also add base tag as backup
+          if base_path:
+              base_tag = f'<base href="{base_path}/">'
+              base_added = 0
+              for html_file in html_files:
+                  with open(html_file, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  
+                  if not re.search(r'<base\s+[^>]*>', content, re.IGNORECASE):
+                      content = re.sub(
+                          r'(<head[^>]*>)',
+                          r'\1\n    ' + base_tag,
+                          content,
+                          count=1,
+                          flags=re.IGNORECASE
+                      )
+                      
+                      with open(html_file, 'w', encoding='utf-8') as f:
+                          f.write(content)
+                      base_added += 1
+              
+              if base_added > 0:
+                  print(f"✓ Added <base> tag to {base_added} HTML files")
           FIXPATHS
           
           # Ensure .nojekyll exists for GitHub Pages (prevents Jekyll processing)

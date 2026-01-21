@@ -3,7 +3,7 @@ site_name = "omegaUp Documentation"
 # Update this URL after creating your GitHub repository
 # Format: https://YOUR_USERNAME.github.io/YOUR_REPO_NAME
 # Or use your custom domain: https://docs.omegaup.com
-site_url = "https://YOUR_USERNAME.github.io/YOUR_REPO_NAME"
+site_url = "https://antedotee.github.io/omegaup-docs/"
 site_dir = "site"
 copyright = "Copyright &copy; 2025 omegaUp"
 docs_dir = "."

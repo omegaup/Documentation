@@ -54,6 +54,18 @@ custom_fences = [
 [project.markdown_extensions.pymdownx.tasklist]
 [project.markdown_extensions.pymdownx.tilde]
 
+#
+# Navigation
+[project.nav]
+"Começando" = "getting-started/"
+"Arquitetura" = "architecture/"
+"Recursos" = "features/"
+"Desenvolvimento" = "development/"
+"Referência da API" = "api/"
+"Operações" = "operations/"
+"Comunidade" = "community/"
+"Referência" = "reference/"
+
 [project.extra]
 version = "1.0.0"
 alternate = [

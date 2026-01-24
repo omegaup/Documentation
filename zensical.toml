@@ -62,8 +62,15 @@ custom_fences = [
 
 #
 # Navigation
-# Zensical auto-detects navigation from the `docs/` directory structure by default.
-# If you later want to define an explicit nav, do it in a Zensical-supported format.
+[project.nav]
+"Getting Started" = "getting-started/"
+"Architecture" = "architecture/"
+"Features" = "features/"
+"Development" = "development/"
+"API Reference" = "api/"
+"Operations" = "operations/"
+"Community" = "community/"
+"Reference" = "reference/"
 
 [project.extra]
 version = "1.0.0"

@@ -57,28 +57,97 @@ custom_fences = [
 #
 # Navigation
 [[project.nav]]
-"Começando" = "getting-started/"
+"Começando" = [
+    { "Visão geral" = "getting-started/" },
+    { "Configuração de desenvolvimento" = "getting-started/development-setup.md" },
+    { "Contribuindo" = "getting-started/contributing.md" },
+    { "Obter ajuda" = "getting-started/getting-help.md" },
+]
 
 [[project.nav]]
-"Arquitetura" = "architecture/"
+"Arquitetura" = [
+    { "Visão geral" = "architecture/" },
+    { "Internos" = "architecture/internals.md" },
+    { "Backend" = "architecture/backend.md" },
+    { "Frontend" = "architecture/frontend.md" },
+    { "Esquema de banco de dados" = "architecture/database-schema.md" },
+    { "Padrão MVC" = "architecture/mvc-pattern.md" },
+    { "Internos do Grader" = "architecture/grader-internals.md" },
+    { "Internos do Runner" = "architecture/runner-internals.md" },
+    { "Gitserver" = "architecture/gitserver.md" },
+    { "Broadcaster" = "architecture/broadcaster.md" },
+    { "Infraestrutura" = "architecture/infrastructure.md" },
+    { "Segurança" = "architecture/security.md" },
+]
 
 [[project.nav]]
-"Recursos" = "features/"
+"Recursos" = [
+    { "Visão geral" = "features/" },
+    { "Arena" = "features/arena.md" },
+    { "Grader" = "features/grader.md" },
+    { "Runner" = "features/runner.md" },
+    { "Sandbox" = "features/sandbox.md" },
+    { "Versionamento de problemas" = "features/problem-versioning.md" },
+    { "Atualizações em tempo real" = "features/realtime.md" },
+    { "Vereditos" = "features/verdicts.md" },
+    { "Distintivos" = "features/badges.md" },
+]
 
 [[project.nav]]
-"Desenvolvimento" = "development/"
+"Desenvolvimento" = [
+    { "Visão geral" = "development/" },
+    { "Diretrizes de codificação" = "development/coding-guidelines.md" },
+    { "Testes" = "development/testing.md" },
+    { "Componentes" = "development/components.md" },
+    { "Padrões de banco de dados" = "development/database-patterns.md" },
+    { "Guia de migração" = "development/migration-guide.md" },
+    { "Comandos úteis" = "development/useful-commands.md" },
+]
 
 [[project.nav]]
-"Referência da API" = "api/"
+"Referência da API" = [
+    { "Visão geral" = "api/" },
+    { "REST API" = "api/rest-api.md" },
+    { "Autenticação" = "api/authentication.md" },
+    { "Usuários" = "api/users.md" },
+    { "Problemas" = "api/problems.md" },
+    { "Concursos" = "api/contests.md" },
+    { "Execuções" = "api/runs.md" },
+    { "Esclarecimentos" = "api/clarifications.md" },
+    { "Grupos" = "api/groups.md" },
+    { "Equipes" = "api/teams.md" },
+    { "Escolas" = "api/schools.md" },
+    { "Distintivos" = "api/badges.md" },
+    { "Certificados" = "api/certificates.md" },
+    { "Etiquetas" = "api/tags.md" },
+    { "Nominações de qualidade" = "api/quality-nominations.md" },
+    { "Admin" = "api/admin.md" },
+    { "Códigos de erro" = "api/error-codes.md" },
+]
 
 [[project.nav]]
-"Operações" = "operations/"
+"Operações" = [
+    { "Visão geral" = "operations/" },
+    { "Configuração do Docker" = "operations/docker-setup.md" },
+    { "Implantação" = "operations/deployment.md" },
+    { "Configuração do Nginx" = "operations/nginx-configuration.md" },
+    { "Monitoramento" = "operations/monitoring.md" },
+    { "Solução de problemas" = "operations/troubleshooting.md" },
+]
 
 [[project.nav]]
-"Comunidade" = "community/"
+"Comunidade" = [
+    { "Visão geral" = "community/" },
+    { "Recrutamento" = "community/recruitment.md" },
+]
 
 [[project.nav]]
-"Referência" = "reference/"
+"Referência" = [
+    { "Visão geral" = "reference/" },
+    { "Glossário" = "reference/glossary.md" },
+    { "Linguagens suportadas" = "reference/languages.md" },
+    { "Links úteis" = "reference/links.md" },
+]
 
 [project.extra]
 version = "1.0.0"

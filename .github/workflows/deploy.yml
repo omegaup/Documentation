@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+          token: ${{ secrets.PAGES_DEPLOY_TOKEN || github.token }}
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
@@ -224,3 +227,5 @@ jobs:
           path: site
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          token: ${{ secrets.PAGES_DEPLOY_TOKEN || github.token }}
